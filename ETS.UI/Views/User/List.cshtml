@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ETS.UI.DTOs.UserDTO>
+@{
+    ViewData["Title"] = "List All Users";
+}
+<h1>@ViewData["Title"]</h1>
+
+@{ if (Model != null)}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Firstname</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">Blood Group</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Surname)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BloodGroup)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                    
+                </tr>
+            };
+        }
+    </tbody>
+</table>

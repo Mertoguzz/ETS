@@ -1,0 +1,160 @@
+﻿@model ETS.UI.Models.User
+@{
+    ViewData["Title"] = "ETS Homework Register Page";
+    List<SelectListItem> bloodGroups = new List<SelectListItem>();
+    bloodGroups.Add(new SelectListItem
+    {
+        Text = "A RH -",
+        Value = "A-"
+    });
+    bloodGroups.Add(new SelectListItem
+    {
+        Text = "A RH +",
+        Value = "A+",
+    });
+    bloodGroups.Add(new SelectListItem
+    {
+        Text = "B RH -",
+        Value = "B-"
+    });
+    bloodGroups.Add(new SelectListItem
+    {
+        Text = "B RH +",
+        Value = "B+"
+    });
+    bloodGroups.Add(new SelectListItem
+    {
+        Text = "AB RH -",
+        Value = "AB-"
+    });
+    bloodGroups.Add(new SelectListItem
+    {
+        Text = "AB RH +",
+        Value = "AB+"
+    });
+    bloodGroups.Add(new SelectListItem
+    {
+        Text = "O RH -",
+        Value = "O-"
+    });
+    bloodGroups.Add(new SelectListItem
+    {
+        Text = "O RH +",
+        Value = "O+"
+    });
+}
+
+<div class="text-center">
+
+    @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @id = "userRegisterForm" }))
+    {
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            @Html.TextBoxFor(m => m.Name, new { @id = "name", @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            @Html.TextBoxFor(m => m.Surname, new { @id = "surname", @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="bloodgroup">Blood Group</label>
+            @Html.DropDownListFor(model => model.BloodGroup, bloodGroups, "Select Blood Group", new { @id = "bloodGroup", @class = "form-control" })
+        </div>
+
+
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            @Html.TextBoxFor(m => m.Phone, new { @id = "phone", @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Adress</label>
+            @Html.TextBoxFor(m => m.Address, new { @id = "address", @class = "form-control" })
+        </div>
+        <button type="button" class="btn btn-success" onclick="UserRegister()">Submit</button>
+    }
+
+
+
+</div>
+
+<script>
+    document.getElementById('phone').addEventListener('input', function (e) {
+        $('#phone').removeClass("border border-danger");
+        var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+    document.getElementById('address').addEventListener('input', function (e) {
+        $('#address').removeClass("border border-danger");
+    });
+    document.getElementById('name').addEventListener('input', function (e) {
+        $('#name').removeClass("border border-danger");
+    });
+    document.getElementById('surname').addEventListener('input', function (e) {
+        $('#surname').removeClass("border border-danger");
+    });
+    document.getElementById('bloodGroup').addEventListener('input', function (e) {
+        $('#bloodGroup').removeClass("border border-danger");
+    });
+
+    function UserRegister() {
+        var isValid = true;
+        isValid = RunValidations();
+        if (isValid) {
+            var userDto = {
+                Name: $('#name').val(),
+                Surname: $('#surname').val(),
+                BloodGroup: $('#bloodGroup').val(),
+                Address: $('#address').val(),
+                Phone: $('#phone').val()
+            };
+            $.ajax({
+                url: "/User/Register",
+                type: "POST",
+                data: { "user": userDto },
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                    alert('Error occured');
+                }
+            })
+        }
+    }
+
+    function RunValidations() {
+        var textIsValid = CheckIfTheTextFieldIsEmpty();
+        var checkIsValid = CheckIstheSelectFieldIsEmpty('bloodGroup');
+        return textIsValid == true && checkIsValid == true ? true : false;
+    }
+    function CheckIfTheTextFieldIsEmpty() {
+        var isValid = true;
+        $('input[type=text]').each(function () {
+            var text = $(this).val();
+            if (text == null || text === "") {
+                $(this).addClass("border border-danger");
+                $(this).attr("placeholder", "type some text");
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+    function CheckIstheSelectFieldIsEmpty(id) {
+        var isValid = true;
+        var element = $("#" + id + "");
+        var choice = element.val();
+
+        if (choice == null || choice === "") {
+
+            $('#' + id + '').addClass("border border-danger");
+            $('#' + id + '').attr("placeholder", "type some text");
+            isValid = false;
+
+        }
+        return isValid;
+    }
+
+</script>
