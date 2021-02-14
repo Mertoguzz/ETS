@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "xSg/aYdXx8BzCAcjGBnKnsBXRRLmOdzV30bwDPF2yW7WWNPdwzxkGnBSEVZyvSj1UKIqeHTB5JwKRut+Oj/e3Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ext02d19216\\source\\repos\\ETS\\ETS.UI\\ETS.UI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ext02d19216\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
